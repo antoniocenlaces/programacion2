@@ -1,4 +1,4 @@
-const int N = 100000;       // Maximo numero de intervalos
+const int N = 100;       // Maximo numero de intervalos
 const double minini = 0;    // Minimo valor de inicio para los intervalos
 const double maxfin = 100;  // Maximo valor de fin para los intervalos
 
@@ -22,7 +22,6 @@ struct tpInter{
 //        {3.5, 7.0}
 //    };
 // tiene cinco intervalos, el primero empieza en 1.5 y termina en 8.0.
-
 
 // maxSolFBruta devuelve un registro tpSolape en el que el campo solape
 // es el maximo solape entre parejas de los n primeros intervalos de inters,
