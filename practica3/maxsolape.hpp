@@ -1,4 +1,4 @@
-const int N = 100;       // Maximo numero de intervalos
+const int N = 100000;       // Maximo numero de intervalos
 const double minini = 0;    // Minimo valor de inicio para los intervalos
 const double maxfin = 100;  // Maximo valor de fin para los intervalos
 
@@ -11,6 +11,16 @@ struct tpInter{
     int ind;            // Indice del intervalo en la matriz inicial
     double ini, fin;    // Inicio y fin del intervalo
 };
+
+
+// Pre: true
+// Post: Muestra por salida estándard un vector de tpInter con el formato:
+// [{ind: 0, ini: 1.5, fin: 8.0},
+//  {ind: 1, ini: 0.0, fin: 4.5},
+//  {ind: 2, ini: 2.0, fin: 4.0},
+//  {ind: 3, ini: 1.0, fin: 6.0},
+//  {ind: 4, ini: 3.5, fin: 7.0}]
+void muestraIndInters(tpInter indinters[N], const int p, const int f);
 
 // Cada fila de inters representa un intervalo. La primera columna
 // es el inicio del intervalo, y la segunda el final. Por ejemplo:

@@ -38,15 +38,21 @@ int main() {
        {3.5, 7.0},
        {0.0, 0.0},
        {-10.0, 8.0},
-       {-12.0, 9.0}
+       {-12.0, 9.0},
+       {-99.37, 50.32},
+       {-10.1, 8.2}
    };
     tpSolape encontrado;
-    encontrado = maxSolFBruta(inters,16);
+    encontrado = maxSolFBruta(inters,18);
     cout << "Intervalo 1: " << encontrado.interA << " Intervalo 2: " << encontrado.interB << " Solape: "
         << encontrado.solape << endl;
     // 
     
     tpInter indinters[N];
-    crearvind(inters, indinters, 16);
-
+    crearvind(inters, indinters, 18);
+    cout << "Vector de intervalos sin ordenar: " << endl;
+    muestraIndInters(indinters,0, 17);
+    mergesortIndInters(indinters, 0, 17);
+    cout << "Vector de intervalos ordenado: " << endl;
+    muestraIndInters(indinters,0, 17);
 }

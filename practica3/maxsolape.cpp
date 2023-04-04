@@ -9,6 +9,7 @@
 //*****************************************************************
 
 #include <iostream>
+#include <iomanip>
 // #include <cstring>
 // #include <math.h>
 using namespace std;
@@ -56,6 +57,29 @@ double solapeOrdenados(const double a, const double b, const double c, const dou
     }
 }
 
+// Pre: 0 <= p <= f < N
+// Post: Muestra las componentes de p a f de un vector de tpInter con el formato:
+// [{ind: 0, ini: 1.5, fin: 8.0},
+//  {ind: 1, ini: 0.0, fin: 4.5},
+//  {ind: 2, ini: 2.0, fin: 4.0},
+//  {ind: 3, ini: 1.0, fin: 6.0},
+//  {ind: 4, ini: 3.5, fin: 7.0}]
+void muestraIndInters(tpInter indinters[N], const int p, const int f) {
+    cout << fixed << setprecision(2) << "[";
+    if (f-p+1 > 0){
+        cout << "{ind: " << setw(6) << indinters[p].ind << ", ini: " << setw(6)
+            << indinters[p].ini << ", fin: " << setw(6) << indinters[p].fin << "}," << endl;
+        for (unsigned i = p+1; i < f; i++){
+            cout << " {ind: " << setw(6) << indinters[i].ind << ", ini: " << setw(6) 
+                << indinters[i].ini << ", fin: " << setw(6) << indinters[i].fin << "}," << endl;
+        }
+        int i= f ;
+        cout << " {ind: " << setw(6) << indinters[i].ind << ", ini: " << setw(6) 
+                << indinters[i].ini << ", fin: " << setw(6) << indinters[i].fin << "}";
+    }
+    cout << "]" << endl;
+}
+
 // maxSolFBruta devuelve un registro tpSolape en el que el campo solape
 // es el maximo solape entre parejas de los n primeros intervalos de inters,
 // y los campos interA e interB son los indices de dichos intervalos.
@@ -71,18 +95,18 @@ tpSolape maxSolFBruta(double inters[N][2], int n) {
     resultado.solape = 0.0;
     // En caso de n <= 1 resultado ya contiene el solape (0) y los índices
     // Para implementar fuerza bruta con dos bucles anidados
-    for (unsigned i = 0; i < n - 1; i++) {
-        cout << "Elemento externo " << i << " a: " << inters[i][0] << " b: " << inters[i][1] << endl;
-        for (unsigned j = i + 1; j < n; j++) {
+    for (unsigned i = 0; i < n - 1; i++) { // Bucle externo i ε [0, n-2]
+        // cout << "Elemento externo " << i << " a: " << inters[i][0] << " b: " << inters[i][1] << endl;
+        // En esta iteración comparamos intervalo [a, b]: a=inters[i][0]; b=inters[i][1]
+        for (unsigned j = i + 1; j < n; j++) { // Bucle interno j ε [i+1, n-1]
             double solape = 0.0;
-            // En esta iteración de i comparamos a = inters[i][0]; b = inters[i][1]
-            cout << "Elemento interno " << j << " a: " << inters[j][0] << " b: " << inters[j][1];
+            // cout << "Elemento interno " << j << " a: " << inters[j][0] << " b: " << inters[j][1];
             if (inters[i][0] <= inters[j][0]){ // Los intervalos a comparar están ordenados
                 solape = solapeOrdenados(inters[i][0], inters[i][1], inters[j][0], inters[j][1]);
             } else {
                 solape = solapeOrdenados(inters[j][0], inters[j][1], inters[i][0], inters[i][1]);
             }
-            cout << " Solape: " << solape << endl;
+            // cout << " Solape: " << solape << endl;
             if (solape > resultado.solape) {
                 resultado.solape = solape;
                     resultado.interA = i;
@@ -106,5 +130,61 @@ void crearvind(double inters[N][2], tpInter indinters[N], int n) {
         indinters[i].ind = i;
         indinters[i].ini = inters[i][0];
         indinters[i].fin = inters[i][1];
+    }
+}
+
+//Pre: indinters=V0 ∧ 0≤p≤medio≤f<N ∧ ordenado(indinters, p, medio) 
+//      ∧ ordenado(indinters, medio + 1, f)
+//Post: esPermutación(indinters, V0, p, f) ∧ ordenado(indinters, p, f)
+void mergeSorted(tpInter indinters[N],const int p,const int medio,const int f) {
+    tpInter aux[N]; // vector auxiliar para guardar resultado temporal
+    int h = p; // índice para recorrer parte izquierda del vector
+    int i = p; // índice para recorrer el vector auxiliar
+    int j = medio + 1; // índice para recorrer parte derecha del vector
+    while (h <= medio && j <= f) {
+        if(indinters[h].ini > indinters[j].ini) {
+            aux[i] = indinters[j]; // coloca un elemento de la parte dcha            
+            j++;
+        } else {
+            aux[i] = indinters[h]; // coloca un elemento de la parte izqda
+            h++;
+        }
+        i++; // voy al siguiente elemento vacío de aux
+    }
+    if (h > medio) { // parte izqda recorrida. Copio en aux lo que queda de dcha
+        for (int k = j; k <= f; k++) {
+            aux[i] = indinters[k];
+            i++;
+        }
+    } else { // parte dcha recorrida. Copio en aux lo que queda de izqda
+        for (int k = h; k <= medio; k++) {
+            aux[i] = indinters[k];
+            i++;
+        }
+    }
+    // solo falta copiar aux (ordenado) en indinters
+    // cout << "p="<<p<<" f="<<f<<" medio="<< medio <<endl;
+    // muestraIndInters(aux, p,f);
+    for (int i = p; i <= f; i++) {
+        indinters[i] = aux[i];
+    }
+}
+
+// Ordena con el algoritmo mergesort los intervalos de indinters
+// comprendidos entre las componentes indexadas por p y f, ambas incluidas,
+// de acuerdo al valor de inicio de los intervalos (orden creciente).
+// Por ejemplo, para el vector de la funcion anterior, p=0 y f=4, el vector
+// ordenado sera:
+// [{ind: 1, ini: 0.0, fin: 4.5},
+//  {ind: 3, ini: 1.0, fin: 6.0},
+//  {ind: 0, ini: 1.5, fin: 8.0},
+//  {ind: 2, ini: 2.0, fin: 4.0},
+//  {ind: 4, ini: 3.5, fin: 7.0}]
+void mergesortIndInters(tpInter indinters[N], int p, int f) {
+    if(p < f) {
+        int medio = (p + f) / 2;
+        mergesortIndInters(indinters, p, medio);
+        mergesortIndInters(indinters, medio + 1, f);
+        mergeSorted(indinters, p, medio, f);
     }
 }
