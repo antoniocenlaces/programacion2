@@ -25,7 +25,7 @@ void pruebasPilaEnteros() {
     PilaEnt P;
     // Vacía la pila P
     vaciar(P);
-    // PRIMOS almacena los números primeros menores que 100
+    // PRIMOS almacena los números primos menores que 100
     const int PRIMOS[] = {
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29,
         31, 37, 41, 43, 47, 53, 59, 61, 67, 71,

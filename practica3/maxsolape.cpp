@@ -9,7 +9,7 @@
 //*****************************************************************
 
 #include <iostream>
-#include <iomanip>
+
 // #include <cstring>
 // #include <math.h>
 using namespace std;
@@ -57,56 +57,31 @@ double solapeOrdenados(const double a, const double b, const double c, const dou
     }
 }
 
-// Pre: 0 <= p <= f < N
-// Post: Muestra las componentes de p a f de un vector de tpInter con el formato:
-// [{ind: 0, ini: 1.5, fin: 8.0},
-//  {ind: 1, ini: 0.0, fin: 4.5},
-//  {ind: 2, ini: 2.0, fin: 4.0},
-//  {ind: 3, ini: 1.0, fin: 6.0},
-//  {ind: 4, ini: 3.5, fin: 7.0}]
-void muestraIndInters(tpInter indinters[N], const int p, const int f) {
-    cout << fixed << setprecision(2) << "[";
-    if (f-p+1 > 0){
-        cout << "{ind: " << setw(6) << indinters[p].ind << ", ini: " << setw(6)
-            << indinters[p].ini << ", fin: " << setw(6) << indinters[p].fin << "}," << endl;
-        for (unsigned i = p+1; i < f; i++){
-            cout << " {ind: " << setw(6) << indinters[i].ind << ", ini: " << setw(6) 
-                << indinters[i].ini << ", fin: " << setw(6) << indinters[i].fin << "}," << endl;
-        }
-        int i= f ;
-        cout << " {ind: " << setw(6) << indinters[i].ind << ", ini: " << setw(6) 
-                << indinters[i].ini << ", fin: " << setw(6) << indinters[i].fin << "}";
-    }
-    cout << "]" << endl;
-}
-
 // maxSolFBruta devuelve un registro tpSolape en el que el campo solape
 // es el maximo solape entre parejas de los n primeros intervalos de inters,
 // y los campos interA e interB son los indices de dichos intervalos.
 // Para la matriz inters de ejemplo, el resultado es solape=4.5, interA=0,
 // interB=3
 // (los valores de interA e interB pueden estar intercambiados, es decir,
-// el resultado para el ejemplo anterior tambi�n puede ser solape=4.5,
+// el resultado para el ejemplo anterior también puede ser solape=4.5,
 // interA=3, interB=0).
 tpSolape maxSolFBruta(double inters[N][2], int n) {
-    tpSolape resultado;
+    tpSolape resultado; // Variable tipo tpSolape para almacenar el resultado
     resultado.interA = 0;
     resultado.interB = 0;
     resultado.solape = 0.0;
     // En caso de n <= 1 resultado ya contiene el solape (0) y los índices
     // Para implementar fuerza bruta con dos bucles anidados
     for (unsigned i = 0; i < n - 1; i++) { // Bucle externo i ε [0, n-2]
-        // cout << "Elemento externo " << i << " a: " << inters[i][0] << " b: " << inters[i][1] << endl;
         // En esta iteración comparamos intervalo [a, b]: a=inters[i][0]; b=inters[i][1]
         for (unsigned j = i + 1; j < n; j++) { // Bucle interno j ε [i+1, n-1]
             double solape = 0.0;
-            // cout << "Elemento interno " << j << " a: " << inters[j][0] << " b: " << inters[j][1];
+            // Comparamos intervalo [c, d]: c=inters[j][0]; d=inters[j][1] con [a, b]
             if (inters[i][0] <= inters[j][0]){ // Los intervalos a comparar están ordenados
                 solape = solapeOrdenados(inters[i][0], inters[i][1], inters[j][0], inters[j][1]);
             } else {
                 solape = solapeOrdenados(inters[j][0], inters[j][1], inters[i][0], inters[i][1]);
             }
-            // cout << " Solape: " << solape << endl;
             if (solape > resultado.solape) {
                 resultado.solape = solape;
                     resultado.interA = i;
@@ -163,8 +138,6 @@ void mergeSorted(tpInter indinters[N],const int p,const int medio,const int f) {
         }
     }
     // solo falta copiar aux (ordenado) en indinters
-    // cout << "p="<<p<<" f="<<f<<" medio="<< medio <<endl;
-    // muestraIndInters(aux, p,f);
     for (int i = p; i <= f; i++) {
         indinters[i] = aux[i];
     }

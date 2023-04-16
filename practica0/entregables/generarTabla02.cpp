@@ -4,10 +4,10 @@
 // #include <cstdlib>
 
 using namespace std;
-//Pre: r,r ∊ R ∧ r < s
-//Post: randInt(r,s)= α ∧ α ∊ [r, s]
+//Pre: r,s ∊ R ∧ r < s
+//Post: randDouble(r,s)= α ∧ α ∊ [r, s]
 double randDouble(const double r, const double s) {
-    return  double(rand()) / RAND_MAX * (s - r);
+    return  double(rand()) / RAND_MAX * (s - r) + r;
 }
 
 int main(int numArg, char* v[]) {
