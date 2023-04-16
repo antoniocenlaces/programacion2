@@ -40,7 +40,7 @@ void muestraIndInters(tpInter indinters[N], const int p, const int f) {
                 << indinters[f].ini << ", fin: " << setw(6) << indinters[f].fin << "}";
         }
     }
-    cout << "]" << setprecision(6) << endl;
+    cout << "]" << setprecision(4) << endl;
 }
 
 // Pre: r,s ∊ R ∧ r <= s
@@ -94,21 +94,22 @@ int main() {
     cout << "Dime el número de intervalos a crear: ";
     int n;
     cin >> n;
-    double inters[n][2] = { {0.0, 100.0} };
+    double inters[n][2]; // = { {0.0, 100.0} };
     
-    for (unsigned i = 1; i < n; i++) {
+    for (unsigned i = 0; i < n; i++) {
         double inter[2];
         randInter(inter, minini, maxfin);
         inters[i][0] = inter[0];
         inters[i][1] = inter[1];
     }
 
-    tpSolape encontrado; // encontrado es variable tipo tpSolape donde guardo el resultado
+    tpSolape encontradoFB; // encontrado es variable tipo tpSolape donde guardo el resultado
                          // del solape máximo encontrado con fuerza bruta
-    encontrado = maxSolFBruta(inters, n);
+    encontradoFB = maxSolFBruta(inters, n);
     // Muestra por pantalla el resultado encontrado con fuerza bruta
-    cout << "Intervalo 1: " << encontrado.interA << " Intervalo 2: " << encontrado.interB << " Solape: "
-        << encontrado.solape << endl;
+    cout << " Por fuerza bruta:" << endl;
+    cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
+        << encontradoFB.solape << endl;
     
     // PRUEBAS de ordenación de un vector de tpInter
     tpInter indinters[N];
@@ -119,4 +120,14 @@ int main() {
     mergesortIndInters(indinters, 0, n-1);
     cout << "Vector de intervalos ordenado: " << endl;
     muestraIndInters(indinters,0, n-1);
+
+    tpSolape encontradoDyV;
+
+    encontradoDyV = maxSolDyV(indinters, 0, n-1);
+
+    cout << " Por Divide y Vencerás:" << endl;
+    cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
+        << encontradoDyV.solape << endl;
+
+
 }

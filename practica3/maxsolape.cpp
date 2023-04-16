@@ -161,3 +161,77 @@ void mergesortIndInters(tpInter indinters[N], int p, int f) {
         mergeSorted(indinters, p, medio, f);
     }
 }
+
+int encuentraFinMayor(tpInter indinters[N], int p, int medio) {
+    int indMayor = medio;
+    double valorMayor = indinters[medio].fin;
+    if (medio > p) {
+        // al menos hay dos intervalos a comparar
+        for (int i = medio - 1; i >= p; i--){
+            if (indinters[i].fin > valorMayor) {
+                indMayor = i;
+                valorMayor = indinters[i].fin;
+            }
+        }
+    }
+    return indMayor;
+}
+
+tpSolape calculaMaxSolapeIaD(tpInter indinters[N], int p, int medio, int f) {
+    int posFinMayor; // Posición i de indinters tal que indinters[i].fin es el mayor
+                     // con i ∊ [p, f] 
+    posFinMayor = encuentraFinMayor(indinters, p , medio);
+    tpSolape resultado; // Variable tipo tpSolape para almacenar el resultado
+    resultado.interA = indinters[posFinMayor].ind;
+    resultado.interB = 0;
+    resultado.solape = 0.0;
+    // Intervalo de referencia: [a, b]: a=indinters[posFinMayor].ini, 
+    // b=indinters[posFinMayor].fin
+    for (unsigned j = medio + 1; j <= f; j++) { // Bucle interno j ε [i+1, n-1]
+    double solape = 0.0;
+    // Comparamos intervalo [a, b] con [c, d]: c=indinters[j].ini; d=indinters[j].fin
+    // donde a <= c por estar indinters ordenado y [a, b] es un intervalo de la
+    // parte izquierda y [c, d] de la parte derecha
+   
+        solape = solapeOrdenados(indinters[posFinMayor].ini, indinters[posFinMayor].fin,
+                        indinters[j].ini, indinters[j].fin);
+   
+    if (solape > resultado.solape) {
+        resultado.solape = solape;
+            resultado.interB = indinters[j].ind;
+    }
+    } // Fin bucle comparación de un elemento de izqda con todos de dercha
+    return resultado;
+}
+
+// Dado un vector indinters, utiliza la tecnica de Divide y Venceras para
+// devolver el maximo solape entre parejas de intervalos comprendidos
+// entre las componentes indexadas por p y f, ambas incluidas.
+// Por ejemplo, para el vector del procedimiento anterior,
+// el resultado es solape=4.5, interA=0, interB=3
+tpSolape maxSolDyV(tpInter indinters[N], int p, int f) {
+    tpSolape resultado; // Variable tipo tpSolape para almacenar el resultado
+    resultado.interA = 0;
+    resultado.interB = 0;
+    resultado.solape = 0.0;
+    if (f > p) {
+        int medio = (p + f) / 2;
+        tpSolape resultadoIzqda;
+        resultadoIzqda = maxSolDyV(indinters, p, medio); // Parte izqda de indinters
+        tpSolape resultadoDer;
+        resultadoDer = maxSolDyV(indinters, medio +1, f); // Parte derecha de indinters
+        tpSolape maxSolapeIzdaDer;
+        maxSolapeIzdaDer = calculaMaxSolapeIaD(indinters, p, medio, f);
+        resultado = resultadoIzqda;
+        if (resultadoDer.solape > resultado.solape) {
+            resultado = resultadoDer;
+        }
+        if (resultadoIzqda.solape > resultado.solape) {
+            resultado = resultadoIzqda;
+        }
+        if (maxSolapeIzdaDer.solape > resultado.solape) {
+            resultado = maxSolapeIzdaDer;
+        }
+    }
+    return resultado;
+}
