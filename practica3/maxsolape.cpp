@@ -11,7 +11,7 @@
 #include <iostream>
 
 // #include <cstring>
-// #include <math.h>
+#include <cmath>
 using namespace std;
 #include "maxsolape.hpp"
 
