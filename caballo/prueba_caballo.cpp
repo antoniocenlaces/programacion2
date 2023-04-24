@@ -16,11 +16,26 @@ using namespace std;
 #include "caballo.hpp"
 
 int main() {
-    cout << "Probando a borrar todo;" << endl;
-    cout << "Introduce un entero: ";
-    int a;
-    cin >> a;
-    cout << "\033[2J\033[0m";
-    cout << "\x1b[31;43m" << "Ahora con colores" << "\x1b[0m"<< endl;
+    // cout << "Probando a borrar todo;" << endl;
+    // cout << "Introduce un entero: ";
+    // int a;
+    // cin >> a;
+    // cout << "\033[2J\033[0m";
+    // cout << "\x1b[1;31;43m" << "Ahora con colores" << "\x1b[0m"<< endl;
+    // cout << "Escritura normal" << endl;
+
+    Tablero tab;
+    bool exito;
+    int numExitos = 0;
+    initTab(tab);
+    int llamada = 0;
+    exito = caballo(tab, 0, 0, numExitos, llamada);
+    if (exito) {
+        // cout << "\033[2J\033[0m";
+    writeTab(tab);
+    } else {
+    cout << "Imposible" << endl;
+    }
+    cout << "Llamadas realizadas: " << llamada << endl;
     return 0;
 }

@@ -1,4 +1,4 @@
-const int N = 5;
+const int N = 4;
 using Tablero = int[N][N];
 
 const int MOVIMIENTOS[8][2] = {
@@ -39,4 +39,4 @@ void writeTab(const Tablero t);
 // Si no, devuelve falso; "t" y "numExitos"
 // no se modifican
 bool caballo(Tablero t, int i, int j,
-int &numExitos);
+int &numExitos, int &llamada);
