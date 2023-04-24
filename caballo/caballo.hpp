@@ -1,4 +1,4 @@
-const int N = 5;
+const int N = 6;
 using Tablero = int[N][N];
 
 const int MOVIMIENTOS[8][2] = {
