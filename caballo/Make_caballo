@@ -1,0 +1,28 @@
+#------------------------------------------------------------------------------
+# File:   Makefile
+# Author: Programación II-Unizar
+# Date:   Abril 2023
+# Coms:   Makefile (Make_caballo) para el ejercicio de caballo con backtracking
+#------------------------------------------------------------------------------
+
+#---------------------------------------------------------
+# Definición de macros
+CC = g++
+CPPFLAGS = -I. -std=c++11      #opciones de compilación
+LDFLAGS =                      #opciones de linkado
+RM = rm -f                     #comando para borrar ficheros
+
+all: prueba_caballo
+#-----------------------------------------------------------
+# Compilacion
+prueba_caballo.o: prueba_caballo.cpp
+	${CC} -c prueba_caballo.cpp ${CPPFLAGS}
+# Linkado
+prueba_caballo: prueba_caballo.o caballo.o
+	${CC} prueba_caballo.o caballo.o -o prueba_caballo ${LDFLAGS}
+caballo.o: caballo.cpp caballo.hpp
+	${CC} -c caballo.cpp ${CPPFLAGS}
+#-----------------------------------------------------------	
+# LIMPIEZA de todo lo generado. Ojo: se borrarán sin preguntar
+clean:
+	${RM} calmsolape.o maxsolape.o maxsolape
