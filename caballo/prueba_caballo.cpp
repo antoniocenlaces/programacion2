@@ -29,7 +29,7 @@ int main() {
     int numExitos = 0;
     initTab(tab);
     int llamada = 0;
-    exito = caballo(tab, 1, 2, numExitos, llamada);
+    exito = caballo(tab, 0, 0, numExitos, llamada);
     if (exito) {
         // cout << "\033[2J\033[0m";
     writeTab(tab);
