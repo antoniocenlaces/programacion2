@@ -72,9 +72,9 @@ bool caballo(Tablero t, int i, int j, int &numExitos, int &llamada){
         } else {
             numExitos++; 
             t[i][j] = numExitos; 
-           // writeTab(t);
-            // cout << endl; // Separa un tablero del anterior
-            // usleep( 1000 ); //sleeps for 1000 μsecond
+           writeTab(t);
+            cout << endl; // Separa un tablero del anterior
+            usleep( 100 ); //sleeps for 1000 μsecond
         } 
         if (numExitos == N*N) { // acabado con éxito
          return true;
