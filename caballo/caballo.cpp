@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include<unistd.h>
+#include <unistd.h>
 
 using namespace std;
 #include "caballo.hpp"
