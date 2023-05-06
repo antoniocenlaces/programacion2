@@ -11,7 +11,8 @@
 #include <iomanip>
 #include <ctime>
 #include <fstream>
-// #include <cstring>
+#include <chrono>
+#include <string>
 
 using namespace std;
 #include "../practica3/maxsolape.hpp"
@@ -109,44 +110,103 @@ int main() {
        {-99.37, 50.32},
        {-10.1, 8.2}
    };
+    // Fichero para los tiempos con fuerza bruta: tfb.txt
+    string file;
+    file = "tfb.txt";
+    ofstream ffb;
+    abreFicheroEscritura(file, ffb);
+    // Fichero para los tiempos con divide y vencerás: tdyv.txt
+    file = "tdyv.txt";
+    ofstream fdyv;
+    abreFicheroEscritura(file, fdyv);
+    // Inicio la primera prueba con 100 intervalos aleatorios siendo cada uno de ellos
+    // acotado por minini por abajo y por maxfin por arriba
+    int n = 100;
+    while (n <= 400)
+    // Cuando llegue a una prueba con 4000 intervalos, dejaré de hacer pruebas
+    {
+        double inters[n][2];
+        // inters contendrá la secuencia de intervalos tal como generada aleatoriamente
+        for (unsigned i = 0; i < n; i++) {
+            double inter[2];
+            randInter(inter, minini, maxfin);
+            inters[i][0] = inter[0];
+            inters[i][1] = inter[1];
+        }
+        // Comienza a calcular solape por fuerza bruta y por Divide y Vencerás
+        tpSolape encontradoFB; // encontrado es variable tipo tpSolape donde guardo el resultado
+                               // del solape máximo encontrado con fuerza bruta
+        // Antes de iniciar el algoritmo anoto los tiempos de inicio
+        chrono::steady_clock::time_point tInicio, tFin; // Para los tiempos de inicio y fin con <chrono>
+        float duracion;
+        clock_t ticksInicial, ticksFinal; // Para los tiempos de inicio y fin con <ctime>
+        double tiempo; 
+        ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
+        tInicio = chrono::steady_clock::now(); 
+        encontradoFB = maxSolFBruta(inters, n); // Lanza algoritmo de busqueda solape por fuerza bruta
+        ticksFinal = clock();
+        tFin = chrono::steady_clock::now(); // tiempo al final de la ejecución con las dos librerias
+        tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
+        duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
+        // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
+        // Primero va el tiempo con <chrono> después el tiempo con <ctime>
+        ffb << n << "\t" << fixed << setprecision(0) << duracion << "\t" << tiempo << endl;
 
-    cout << "Dime el número de intervalos a crear: ";
-    int n;
-    cin >> n;
-    double inters[n][2]; // = { {0.0, 100.0} };
-    
-    for (unsigned i = 0; i < n; i++) {
-        double inter[2];
-        randInter(inter, minini, maxfin);
-        inters[i][0] = inter[0];
-        inters[i][1] = inter[1];
+cout << " Por fuerza bruta:" << endl;
+cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
+    << encontradoFB.solape << endl;
+
+
+        // Comienzo a preparar el algoritmo de DyV
+        // Creo el registro que va a almacenar los intervalos aleatorios
+        tpInter indinters[n];
+        // Llama a la función que crea un vector tipo tpInter partiendo de la matriz inters[N][2]
+        crearvind(inters, indinters, n);
+
+        tpSolape encontradoDyV; // Para almacenar el resultado del solape 
+        ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
+        tInicio = chrono::steady_clock::now();
+        mergesortIndInters(indinters, 0, n-1); // Primero ordena de menor a mayor los intervalos contenidos en indinters
+        encontradoDyV = maxSolDyV(indinters, 0, n-1);
+        ticksFinal = clock();
+        tFin = chrono::steady_clock::now(); // tiempo al final de la ejecución con las dos librerias
+        tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
+        duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
+        // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
+        // Primero va el tiempo con <chrono> después el tiempo con <ctime>
+        fdyv << n << "\t" << fixed << setprecision(0) << duracion << "\t" << tiempo << endl;
+
+cout << " Por Divide y Vencerás:" << endl;
+cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
+    << encontradoDyV.solape << endl;
+
+
+        n += 50;
+        // La próxima prueba se realizará con 50 intervalos más
     }
 
-    tpSolape encontradoFB; // encontrado es variable tipo tpSolape donde guardo el resultado
-                         // del solape máximo encontrado con fuerza bruta
-    encontradoFB = maxSolFBruta(inters, n);
-    // Muestra por pantalla el resultado encontrado con fuerza bruta
-    cout << " Por fuerza bruta:" << endl;
-    cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
-        << encontradoFB.solape << endl;
+   cierraFicheroEscritura(ffb);
+   cierraFicheroEscritura(fdyv);
     
-    // PRUEBAS de ordenación de un vector de tpInter
-    tpInter indinters[N];
-    // Llama a la función que crea un vector tipo tpInter partiendo de la matriz inters[N][2]
-    crearvind(inters, indinters, n);
-    cout << "Vector de intervalos sin ordenar: " << endl;
-    muestraIndInters(indinters,0, n-1);
-    mergesortIndInters(indinters, 0, n-1);
-    cout << "Vector de intervalos ordenado: " << endl;
-    muestraIndInters(indinters,0, n-1);
+    // Muestra por pantalla el resultado encontrado con fuerza bruta
+    // cout << " Por fuerza bruta:" << endl;
+    // cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
+    //     << encontradoFB.solape << endl;
+    
+  
+    // cout << "Vector de intervalos sin ordenar: " << endl;
+    // muestraIndInters(indinters,0, n-1);
+    // mergesortIndInters(indinters, 0, n-1);
+    // cout << "Vector de intervalos ordenado: " << endl;
+    // muestraIndInters(indinters,0, n-1);
 
-    tpSolape encontradoDyV;
+    // tpSolape encontradoDyV;
 
-    encontradoDyV = maxSolDyV(indinters, 0, n-1);
+    // encontradoDyV = maxSolDyV(indinters, 0, n-1);
 
-    cout << " Por Divide y Vencerás:" << endl;
-    cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
-        << encontradoDyV.solape << endl;
+    // cout << " Por Divide y Vencerás:" << endl;
+    // cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
+    //     << encontradoDyV.solape << endl;
 
 
 }
