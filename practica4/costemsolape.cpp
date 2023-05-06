@@ -119,10 +119,20 @@ int main() {
     file = "tdyv.txt";
     ofstream fdyv;
     abreFicheroEscritura(file, fdyv);
+
+// Ficheros adiconales para tiempos por <ctime>
+    file = "tfb2.txt";
+    ofstream ffb2;
+    abreFicheroEscritura(file, ffb2);
+
+    file = "tdyv2.txt";
+    ofstream fdyv2;
+    abreFicheroEscritura(file, fdyv2);
+
     // Inicio la primera prueba con 100 intervalos aleatorios siendo cada uno de ellos
     // acotado por minini por abajo y por maxfin por arriba
     int n = 100;
-    while (n <= 400)
+    while (n <= 800)
     // Cuando llegue a una prueba con 4000 intervalos, dejaré de hacer pruebas
     {
         double inters[n][2];
@@ -150,8 +160,8 @@ int main() {
         duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
         // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
         // Primero va el tiempo con <chrono> después el tiempo con <ctime>
-        ffb << n << "\t" << fixed << setprecision(0) << duracion << "\t" << tiempo << endl;
-
+        ffb << n << "\t" << fixed << setprecision(0) << duracion  << endl;
+        ffb2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
 cout << " Por fuerza bruta:" << endl;
 cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
     << encontradoFB.solape << endl;
@@ -174,7 +184,8 @@ cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontrado
         duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
         // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
         // Primero va el tiempo con <chrono> después el tiempo con <ctime>
-        fdyv << n << "\t" << fixed << setprecision(0) << duracion << "\t" << tiempo << endl;
+        fdyv << n << "\t" << fixed << setprecision(0) << duracion << endl;
+        fdyv2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
 
 cout << " Por Divide y Vencerás:" << endl;
 cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
@@ -185,9 +196,10 @@ cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontrad
         // La próxima prueba se realizará con 50 intervalos más
     }
 
-   cierraFicheroEscritura(ffb);
-   cierraFicheroEscritura(fdyv);
-    
+    cierraFicheroEscritura(ffb);
+    cierraFicheroEscritura(fdyv);
+    cierraFicheroEscritura(ffb2);
+    cierraFicheroEscritura(fdyv2);
     // Muestra por pantalla el resultado encontrado con fuerza bruta
     // cout << " Por fuerza bruta:" << endl;
     // cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
