@@ -200,6 +200,12 @@ cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontrad
     cierraFicheroEscritura(fdyv);
     cierraFicheroEscritura(ffb2);
     cierraFicheroEscritura(fdyv2);
+
+    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb.txt'\" > tfb.gif");
+    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb2.txt'\" > tfb2.gif");
+    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv.txt'\" > tdyv.gif");
+    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv2.txt'\" > tdyv2.gif");
+
     // Muestra por pantalla el resultado encontrado con fuerza bruta
     // cout << " Por fuerza bruta:" << endl;
     // cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
