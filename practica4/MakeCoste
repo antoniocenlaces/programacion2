@@ -25,4 +25,4 @@ maxsolape.o: ../practica3/maxsolape.cpp ../practica3/maxsolape.hpp
 #-----------------------------------------------------------	
 # LIMPIEZA de todo lo generado. Ojo: se borrarán sin preguntar
 clean:
-	${RM} costemsolape.o maxsolape.o costemsolape.exe
+	${RM} costemsolape.o maxsolape.o costemsolape.exe *.txt *.gif
