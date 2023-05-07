@@ -19,10 +19,10 @@ costemsolape.o: costemsolape.cpp
 	${CC} -c costemsolape.cpp -I ../practica3 ${CPPFLAGS}
 # Linkado
 main: costemsolape.o maxsolape.o
-	${CC} costemsolape.o maxsolape.o -I ../practica3 -o costemsolape ${LDFLAGS}
+	${CC} costemsolape.o maxsolape.o -I ../practica3 -o costemsolape.exe ${LDFLAGS}
 maxsolape.o: ../practica3/maxsolape.cpp ../practica3/maxsolape.hpp
 	${CC} -c ../practica3/maxsolape.cpp -I ../practica3 ${CPPFLAGS}
 #-----------------------------------------------------------	
 # LIMPIEZA de todo lo generado. Ojo: se borrarán sin preguntar
 clean:
-	${RM} costemsolape.o maxsolape.o costemsolape
+	${RM} costemsolape.o maxsolape.o costemsolape.exe
