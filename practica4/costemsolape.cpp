@@ -132,7 +132,7 @@ int main() {
     // Inicio la primera prueba con 100 intervalos aleatorios siendo cada uno de ellos
     // acotado por minini por abajo y por maxfin por arriba
     int n = 100;
-    while (n <= 4000)
+    while (n <= 6000)
     // Cuando llegue a una prueba con 4000 intervalos, dejaré de hacer pruebas
     {
         double inters[n][2];
