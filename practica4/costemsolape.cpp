@@ -13,6 +13,7 @@
 #include <fstream>
 #include <chrono>
 #include <string>
+#include <math.h>
 
 using namespace std;
 #include "../practica3/maxsolape.hpp"
@@ -82,6 +83,8 @@ void cierraFicheroEscritura(ofstream &f)
 }
 
 int main() {
+    const unsigned MAX_INTERVALOS = 4000;
+    const unsigned SALTO = 50;
     srand(time(nullptr));
     double inters2[N][2] = {
        {1.5, 8.0},
@@ -131,8 +134,8 @@ int main() {
 
     // Inicio la primera prueba con 100 intervalos aleatorios siendo cada uno de ellos
     // acotado por minini por abajo y por maxfin por arriba
-    int n = 100;
-    while (n <= 8000)
+    int n = 2 * SALTO;
+    while (n <= MAX_INTERVALOS)
     // Cuando llegue a una prueba con 4000 intervalos, dejaré de hacer pruebas
     {
         double inters[n][2];
@@ -192,7 +195,7 @@ int main() {
 //     << encontradoDyV.solape << endl;
 
 
-        n += 50;
+        n += SALTO;
         // La próxima prueba se realizará con 50 intervalos más
     }
 
@@ -201,10 +204,23 @@ int main() {
     // cierraFicheroEscritura(ffb2);
     // cierraFicheroEscritura(fdyv2);
 
+    // Gráfica de n*log2(n)
+    file = "knlogn.txt";
+    abreFicheroEscritura(file, ffb);
+
+    n = SALTO * 2;
+
+    for (unsigned i = n; i <= MAX_INTERVALOS; i=i+SALTO) {
+        ffb << i << "\t" << fixed << setprecision(0) << (i*log(i)*1424.0/33136.0)  << endl;
+    }
+    cierraFicheroEscritura(ffb);
+
     system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb.txt'\" > tfb.gif");
     // system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb2.txt'\" > tfb2.gif");
     system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv.txt'\" > tdyv.gif");
     // system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv2.txt'\" > tdyv2.gif");
+
+    system("gnuplot -e \"set terminal gif; set style data lines; plot 'knlogn.txt'\" > knlogn.gif");
 
     // Muestra por pantalla el resultado encontrado con fuerza bruta
     // cout << " Por fuerza bruta:" << endl;
