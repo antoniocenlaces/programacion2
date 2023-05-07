@@ -121,18 +121,18 @@ int main() {
     abreFicheroEscritura(file, fdyv);
 
 // Ficheros adiconales para tiempos por <ctime>
-    file = "tfb2.txt";
-    ofstream ffb2;
-    abreFicheroEscritura(file, ffb2);
+    // file = "tfb2.txt";
+    // ofstream ffb2;
+    // abreFicheroEscritura(file, ffb2);
 
-    file = "tdyv2.txt";
-    ofstream fdyv2;
-    abreFicheroEscritura(file, fdyv2);
+    // file = "tdyv2.txt";
+    // ofstream fdyv2;
+    // abreFicheroEscritura(file, fdyv2);
 
     // Inicio la primera prueba con 100 intervalos aleatorios siendo cada uno de ellos
     // acotado por minini por abajo y por maxfin por arriba
     int n = 100;
-    while (n <= 800)
+    while (n <= 4000)
     // Cuando llegue a una prueba con 4000 intervalos, dejaré de hacer pruebas
     {
         double inters[n][2];
@@ -149,22 +149,22 @@ int main() {
         // Antes de iniciar el algoritmo anoto los tiempos de inicio
         chrono::steady_clock::time_point tInicio, tFin; // Para los tiempos de inicio y fin con <chrono>
         float duracion;
-        clock_t ticksInicial, ticksFinal; // Para los tiempos de inicio y fin con <ctime>
-        double tiempo; 
-        ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
+        // clock_t ticksInicial, ticksFinal; // Para los tiempos de inicio y fin con <ctime>
+        // double tiempo; 
+        // ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
         tInicio = chrono::steady_clock::now(); 
         encontradoFB = maxSolFBruta(inters, n); // Lanza algoritmo de busqueda solape por fuerza bruta
-        ticksFinal = clock();
+        // ticksFinal = clock();
         tFin = chrono::steady_clock::now(); // tiempo al final de la ejecución con las dos librerias
-        tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
+        // tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
         duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
         // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
         // Primero va el tiempo con <chrono> después el tiempo con <ctime>
         ffb << n << "\t" << fixed << setprecision(0) << duracion  << endl;
-        ffb2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
-cout << " Por fuerza bruta:" << endl;
-cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
-    << encontradoFB.solape << endl;
+        // ffb2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
+// cout << " Por fuerza bruta:" << endl;
+// cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontradoFB.interB << " Solape: "
+//     << encontradoFB.solape << endl;
 
 
         // Comienzo a preparar el algoritmo de DyV
@@ -174,22 +174,22 @@ cout << "Intervalo 1: " << encontradoFB.interA << " Intervalo 2: " << encontrado
         crearvind(inters, indinters, n);
 
         tpSolape encontradoDyV; // Para almacenar el resultado del solape 
-        ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
+        // ticksInicial = clock(); // tiempo al inicio de la ejecución con las dos librerias
         tInicio = chrono::steady_clock::now();
         mergesortIndInters(indinters, 0, n-1); // Primero ordena de menor a mayor los intervalos contenidos en indinters
         encontradoDyV = maxSolDyV(indinters, 0, n-1);
-        ticksFinal = clock();
+        // ticksFinal = clock();
         tFin = chrono::steady_clock::now(); // tiempo al final de la ejecución con las dos librerias
-        tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
+        // tiempo = double(ticksFinal - ticksInicial) / CLOCKS_PER_SEC * 1e6;
         duracion = chrono::duration_cast<chrono::microseconds>(tFin-tInicio).count(); //duración en microsegundos
         // Almaceno en la siguiente línea de ffb el número de intervalos y el tiempo de fuerza bruta
         // Primero va el tiempo con <chrono> después el tiempo con <ctime>
         fdyv << n << "\t" << fixed << setprecision(0) << duracion << endl;
-        fdyv2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
+        // fdyv2 << n << "\t" << fixed << setprecision(0) << tiempo << endl;
 
-cout << " Por Divide y Vencerás:" << endl;
-cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
-    << encontradoDyV.solape << endl;
+// cout << " Por Divide y Vencerás:" << endl;
+// cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontradoDyV.interB << " Solape: "
+//     << encontradoDyV.solape << endl;
 
 
         n += 50;
@@ -198,13 +198,13 @@ cout << "Intervalo 1: " << encontradoDyV.interA << " Intervalo 2: " << encontrad
 
     cierraFicheroEscritura(ffb);
     cierraFicheroEscritura(fdyv);
-    cierraFicheroEscritura(ffb2);
-    cierraFicheroEscritura(fdyv2);
+    // cierraFicheroEscritura(ffb2);
+    // cierraFicheroEscritura(fdyv2);
 
     system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb.txt'\" > tfb.gif");
-    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb2.txt'\" > tfb2.gif");
+    // system("gnuplot -e \"set terminal gif; set style data lines; plot 'tfb2.txt'\" > tfb2.gif");
     system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv.txt'\" > tdyv.gif");
-    system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv2.txt'\" > tdyv2.gif");
+    // system("gnuplot -e \"set terminal gif; set style data lines; plot 'tdyv2.txt'\" > tdyv2.gif");
 
     // Muestra por pantalla el resultado encontrado con fuerza bruta
     // cout << " Por fuerza bruta:" << endl;
