@@ -86,33 +86,7 @@ int main() {
     const unsigned MAX_INTERVALOS = 4000;
     const unsigned SALTO = 50;
     srand(time(nullptr));
-    double inters2[N][2] = {
-       {1.5, 8.0},
-       {0.0, 4.5},
-       {2.0, 4.0},
-       {1.0, 6.0},
-       {3.5, 7.0}
-   };
-       double inters3[N][2] = {
-       {4.0, 7.5},
-       {3.0, 5.0},
-       {0.5, 2.5},
-       {1.5, 8.0},
-       {0.0, 1.5},
-       {2.0, 4.0},
-       {1.0, 6.0},
-       {3.5, 7.0},
-       {1.5, 8.0},
-       {0.0, 4.5},
-       {2.0, 4.0},
-       {1.0, 6.0},
-       {3.5, 7.0},
-       {0.0, 0.0},
-       {-10.0, 8.0},
-       {-12.0, 9.0},
-       {-99.37, 50.32},
-       {-10.1, 8.2}
-   };
+ 
     // Fichero para los tiempos con fuerza bruta: tfb.txt
     string file;
     file = "tfb.txt";
@@ -147,7 +121,7 @@ int main() {
             inters[i][1] = inter[1];
         }
         // Comienza a calcular solape por fuerza bruta y por Divide y Vencerás
-        tpSolape encontradoFB; // encontrado es variable tipo tpSolape donde guardo el resultado
+        tpSolape encontradoFB; // encontradoFB es variable tipo tpSolape donde guardo el resultado
                                // del solape máximo encontrado con fuerza bruta
         // Antes de iniciar el algoritmo anoto los tiempos de inicio
         chrono::steady_clock::time_point tInicio, tFin; // Para los tiempos de inicio y fin con <chrono>
@@ -204,7 +178,7 @@ int main() {
     // cierraFicheroEscritura(ffb2);
     // cierraFicheroEscritura(fdyv2);
 
-    // Gráfica de n*log2(n)
+    // Gráfica de n*log(n)
     file = "knlogn.txt";
     abreFicheroEscritura(file, ffb);
 
