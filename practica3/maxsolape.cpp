@@ -94,7 +94,7 @@ tpSolape maxSolFBruta(double inters[N][2], int n) {
 
 // Crea un vector de tpInter con los n primeros intervalos de inters.
 // Por ejemplo para la matrix inters de la funcion anterior y n=5, los
-// valores de indinters seran:
+// valores de indinters serán:
 // [{ind: 0, ini: 1.5, fin: 8.0},
 //  {ind: 1, ini: 0.0, fin: 4.5},
 //  {ind: 2, ini: 2.0, fin: 4.0},
@@ -161,7 +161,8 @@ void mergesortIndInters(tpInter indinters[N], int p, int f) {
         mergeSorted(indinters, p, medio, f);
     }
 }
-
+// Pre: indinters contiene medio - p +1 intervalos y están ordenados
+// Post: devuelve el índice de indinters que tiene el valor fin mayor
 int encuentraFinMayor(tpInter indinters[N], int p, int medio) {
     int indMayor = medio;
     double valorMayor = indinters[medio].fin;
@@ -177,6 +178,10 @@ int encuentraFinMayor(tpInter indinters[N], int p, int medio) {
     return indMayor;
 }
 
+//Pre: indinters vector de intervalos ordenados 0<=p <= medio <= f
+//Post: calcula el máximo solape de la parte izquierda con la derecha
+//      para ello calcula el máximo solape del intervalo de la izquierda
+//      con valor fin mayor contra todos los intervalos de la derecha
 tpSolape calculaMaxSolapeIaD(tpInter indinters[N], int p, int medio, int f) {
     int posFinMayor; // Posición i de indinters tal que indinters[i].fin es el mayor
                      // con i ∊ [p, f] 
@@ -187,7 +192,7 @@ tpSolape calculaMaxSolapeIaD(tpInter indinters[N], int p, int medio, int f) {
     resultado.solape = 0.0;
     // Intervalo de referencia: [a, b]: a=indinters[posFinMayor].ini, 
     // b=indinters[posFinMayor].fin
-    for (unsigned j = medio + 1; j <= f; j++) { // Bucle interno j ε [i+1, n-1]
+    for (unsigned j = medio + 1; j <= f; j++) { // Bucle interno j ε [medio+1, n-1]
     double solape = 0.0;
     // Comparamos intervalo [a, b] con [c, d]: c=indinters[j].ini; d=indinters[j].fin
     // donde a <= c por estar indinters ordenado y [a, b] es un intervalo de la
@@ -204,7 +209,7 @@ tpSolape calculaMaxSolapeIaD(tpInter indinters[N], int p, int medio, int f) {
     return resultado;
 }
 
-// Dado un vector indinters, utiliza la tecnica de Divide y Venceras para
+// Dado un vector indinters, utiliza la técnica de Divide y Venceras para
 // devolver el maximo solape entre parejas de intervalos comprendidos
 // entre las componentes indexadas por p y f, ambas incluidas.
 // Por ejemplo, para el vector del procedimiento anterior,

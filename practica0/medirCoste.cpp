@@ -35,14 +35,14 @@ void muestraVector(int valores[], const int numeros){
             j = 0;
             cout << setw(40) << ". . ." << endl;
             while (i < numeros) {
-            while(j < 10 && i < numeros) {
-                cout << setw(8) << valores[i];
-                j++;
-                i++;
-            }
+                while(j < 10 && i < numeros) {
+                    cout << setw(8) << valores[i];
+                    j++;
+                    i++;
+                }
             cout << endl;
             j = 0;
-        }
+            }
         }
 }
 
@@ -64,17 +64,22 @@ int main(int numArg, char* v[]) {
         int final = atoi(v[3]);   // Valor superior del intervalo
         int valores[numeros];
         generaVector(valores, numeros, inicial, final);
+        cout << "Datos a ordenar:" << endl;
         muestraVector(valores, numeros);
-        cout << "Voy a oredenar los números anteriores" << endl;
+        cout << endl; 
+        
+        cout << "Ordenando " << numeros << " datos enteros ..." << endl << endl;
         clock_t ticksInicial = clock();
         ordenar(valores, numeros);
         clock_t ticksFinal = clock();
-        muestraVector(valores, numeros);
 
+        cout << "Datos ordenados:" << endl;
+        muestraVector(valores, numeros);
         cout << endl;
-        cout << "El tiempo empleado en la ordenación ha sido de "
-                << fixed << setprecision(5) << double(ticksFinal - ticksInicial)
-                    / CLOCKS_PER_SEC << "s" << endl;
+
+        cout << "Tiempo de CPU para ordenar " << numeros <<  " enteros: "
+                << fixed << setprecision(3) << double(ticksFinal - ticksInicial)
+                    / CLOCKS_PER_SEC << " segundos" << endl;
         
         return 0;
     } else
