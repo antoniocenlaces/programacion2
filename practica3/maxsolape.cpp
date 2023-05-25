@@ -15,16 +15,6 @@
 using namespace std;
 #include "maxsolape.hpp"
 
-// Pre: inter1 e Inter2 son dos registros de tipo tpInter ^
-//      ^ inter1.ini <= inter1.fin ^ inter2.ini <= inter2.fin
-//
-// Post: intercambia los valores de inter1 con inter2
-void intercambiaInter(tpInter inter1, tpInter inter2) {
-    tpInter aux;
-    aux = inter1;
-    inter1 = inter2;
-    inter2 = inter1;
-}
 // Cuando los intervalos están ordenados las posibilidades de superposición son:
 // Caso A:
 // a        b

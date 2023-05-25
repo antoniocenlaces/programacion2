@@ -75,17 +75,9 @@ void mostrarInvertida(PilaEnt &p, const int anchura = 3) {
     if (!estaVacia(p)) {
         int dato = cima(p);        
         desapilar(p);
-        // if (!estaVacia(p)){
             mostrarInvertida(p, anchura);
             cout << "|" << setw(anchura) << dato << " |" << endl;
-            apilar(p, dato);            
-        // } 
-        // else {
-        //     cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
-        //         << setfill(' ') << endl;
-        //     cout << "|" << setw(anchura) << dato << " |" << endl;
-        //     apilar(p, dato);
-        // }
+            apilar(p, dato);
     } else {
         cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
                 << setfill(' ') << endl;
