@@ -15,14 +15,14 @@ RM = rm -f                     #comando para borrar ficheros
 all: main
 #-----------------------------------------------------------
 # Compilacion
-costemsolape.o: costemsolape.cpp
-	${CC} -c costemsolape.cpp -I ../practica3 ${CPPFLAGS}
+esolape.o: esolape.cpp
+	${CC} -c esolape.cpp -I ../practica3 ${CPPFLAGS}
 # Linkado
-main: costemsolape.o maxsolape.o
-	${CC} costemsolape.o maxsolape.o -I ../practica3 -o costemsolape.exe ${LDFLAGS}
+main: esolape.o maxsolape.o
+	${CC} esolape.o maxsolape.o -I ../practica3 -o esolape.exe ${LDFLAGS}
 maxsolape.o: ../practica3/maxsolape.cpp ../practica3/maxsolape.hpp
 	${CC} -c ../practica3/maxsolape.cpp -I ../practica3 ${CPPFLAGS}
 #-----------------------------------------------------------	
 # LIMPIEZA de todo lo generado. Ojo: se borrarán sin preguntar
 clean:
-	${RM} costemsolape.o maxsolape.o costemsolape.exe *.txt *.gif
+	${RM} costemsolape.o maxsolape.o esolape.exe *.txt *.gif
