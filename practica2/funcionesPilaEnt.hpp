@@ -70,4 +70,6 @@ void eliminar(PilaEnt &p, const int i);
 // Post: p = [nuevo, d_1, d_2, ..., d_K]
 void insertarEnFondo(PilaEnt &pila, const int nuevo);
 
+void filtraPar(PilaEnt &p);
+
 #endif

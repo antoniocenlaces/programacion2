@@ -32,7 +32,7 @@ void pruebasPilaEnteros() {
         73, 79, 83, 89, 97
     };
     // Apila en P los NUM primeros números primos
-    const int NUM = 7;
+    const int NUM = 25;
     for (int i = 1; i <= NUM; ++i) {
         apilar(P, PRIMOS[i-1]);
     }
@@ -58,11 +58,31 @@ void pruebasPilaEnteros() {
     mostrar(P);
     // Inserta los datos 123001 y 9229 en el fondo de la pila P y
     // muestra su contenido
-    insertarEnFondo(P, 123001);
-    insertarEnFondo(P, 9229);
+    insertarEnFondo(P, 123002);
+    insertarEnFondo(P, 9220);
     cout << "Se han insertado 123001 y 9229 en el fondo de la pila:"
          << endl << endl;
     mostrar(P, 6);
+
+     const int PRIMOS2[] = {
+        2,  3,  6,  7, 8, 13, 16, 19, 20, 14,
+        31, 37, 41, 22, 47, 12, 59, 1004, 67, 71,
+        5782, 79, 83, 684, 97
+    };
+    // Apila en P los NUM primeros números primos
+    
+    for (int i = 1; i <= NUM; ++i) {
+        apilar(P, PRIMOS2[i-1]);
+    }
+
+    cout << "Nueva pila antes de filtrar:"
+         << endl << endl;
+    mostrar(P,8);
+
+    filtraPar(P);
+    cout << "Se han filtrado los pares de la pila:"
+         << endl << endl;
+    mostrar(P,8);
 }
 
 

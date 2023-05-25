@@ -44,7 +44,7 @@ int numDatos(PilaEnt &p) {
 //        |     d_2 |
 //        |     d_1 |
 //        +---------+
-void mostrar(PilaEnt &p, const int anchura) {
+void mostrar(PilaEnt &p, const int anchura = 3) {
     if (estaVacia(p)) {
         cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
             << setfill(' ') << endl;
@@ -71,20 +71,21 @@ void mostrar(PilaEnt &p, const int anchura) {
 //        |     d_2 |
 //        |     ... |
 //        |     d_K |
-void mostrarInvertida(PilaEnt &p, const int anchura) {
+void mostrarInvertida(PilaEnt &p, const int anchura = 3) {
     if (!estaVacia(p)) {
         int dato = cima(p);        
         desapilar(p);
-        if (!estaVacia(p)){
+        // if (!estaVacia(p)){
             mostrarInvertida(p, anchura);
             cout << "|" << setw(anchura) << dato << " |" << endl;
             apilar(p, dato);            
-        } else {
-            cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
-                << setfill(' ') << endl;
-            cout << "|" << setw(anchura) << dato << " |" << endl;
-            apilar(p, dato);
-        }
+        // } 
+        // else {
+        //     cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
+        //         << setfill(' ') << endl;
+        //     cout << "|" << setw(anchura) << dato << " |" << endl;
+        //     apilar(p, dato);
+        // }
     } else {
         cout << "+" << setfill('-') << setw(anchura + 2) << "+" 
                 << setfill(' ') << endl;
@@ -128,5 +129,17 @@ void insertarEnFondo(PilaEnt &pila, const int nuevo) {
         desapilar(pila);
         insertarEnFondo(pila, nuevo);
         apilar(pila, dato);
+    }
+}
+
+void filtraPar(PilaEnt &p) {
+       if (estaVacia(p)){
+        return;
+    } else {
+        int dato = cima(p);
+        desapilar(p);
+        filtraPar(p);
+        dato = dato % 2 == 0 ? 0 : dato;
+        apilar(p, dato);
     }
 }
