@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <iomanip>
-// #include <ctime>
-// #include <cstdlib>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -105,6 +105,78 @@ void creaVectorDouble(double v[], const int n, const double minD, const double m
         }
     }
 
+//Problema 3
+    //Pre: 0 ≤ n ≤ #v ∧ v = V0
+    //Post: ∀α ∈ [0, n − 1].(V0[α] ≥ 0 → v[α] = V0[α])
+    // ∧(V0[α] < 0 → v[α] = −V0[α])
+    void absol(double v[], int n){
+        if (n == 0) {
+            return;
+        } else {
+            if (v[n - 1] < 0) {
+                v[n - 1] = - v[n -1];
+            }
+            absol(v, n - 1);
+        }
+    }
+//Problema 4
+    //Pre: 1 ≤ n ≤ #v
+    //Post: minimo(v, n) = Min α ∈ [0, n − 1].v[α]
+    double minimo(const double v[], int n){
+        if (n == 1) {
+            return v[n - 1];
+        } else {
+            double min = minimo(v, n - 1);
+            if (v[n - 1] < min) {
+                return v[n - 1];
+            } else {
+                return min;
+            }
+        }
+    }
+
+// Ejercicio final de lección 3
+    //Pre: 1 ≤ n ≤ #v
+    //Post: fmax(v, n) = Max α ∈ [0, n − 1].v[α]
+    double fmax(const double v[], int n) {
+        if (n == 1) {
+            return v[n - 1];
+        } else {
+            double max = fmax(v, n - 1);
+            if (v[n - 1] > max) {
+                return v[n - 1];
+            } else {
+                return max;
+            }
+        }
+    }
+
+// Problema 5
+    //Pre: 1 ≤ n ≤ #v
+    //Post: Muestra por stdout las componentes v[n-1],v[n-2],..,v[0]
+    void writeRev(const double v[], int n){
+        if (n == 1) {
+            cout << v[n - 1] << endl;
+            return;
+        }
+        cout << v[n - 1] << ", ";
+        writeRev(v, n - 1);
+        return;
+    }
+
+// Problema 5
+    //Pre: 1 ≤ n ≤ #v
+    //Post: Muestra por stdout las componentes v[0],v[1],..,v[n-1]
+    void write(const double v[], int n){
+        if (n == 1) {
+            cout << v[n - 1] << ", ";
+            return;
+        }
+        write(v, n - 1);
+        cout << v[n - 1] << ", ";
+        return;
+    }
+
 int main() {
     srand(time(nullptr));
     cout << "¿Cuántos elementos quieres en el vector? (>=0): ";
@@ -177,4 +249,39 @@ int main() {
         cout << "NO Tiene todos sus elementos positivos";
     }
     cout << endl;
+    cout << endl;
+
+    cout << "Antes de hacer valor absoluto" << endl;
+
+    cout << "Problema 4: mínimo de un vector" << endl;
+   double min = minimo(vr, n);
+   // fixed << setprecision(3) <<
+   cout << "El mínimo del vector anterior es: " <<  min << endl;
+   cout << endl;
+
+   cout << "Ejercicio máximo" << endl;
+   double max = fmax(vr, n);
+   // fixed << setprecision(3) <<
+   cout << "El máximo del vector anterior es: " <<  max << endl;  
+
+    cout << "Problema 3: valor absoluto" << endl;
+    absol(vr, n);
+    muestraDouble(vr, n);
+
+   cout << "Problema 4: mínimo de un vector" << endl;
+   min = minimo(vr, n);
+   // fixed << setprecision(3) <<
+   cout << "El mínimo del vector anterior es: " <<  min << endl;
+   cout << endl;
+
+   cout << "Ejercicio máximo" << endl;
+   max = fmax(vr, n);
+   // fixed << setprecision(3) <<
+   cout << "El máximo del vector anterior es: " <<  max << endl;  
+
+   cout << "Escribe al revés:" << endl;
+   writeRev(vr, n);
+
+   cout << "Escribe al derecho:" << endl;
+   write(vr, n);
 }
