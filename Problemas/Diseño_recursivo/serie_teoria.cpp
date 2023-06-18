@@ -110,9 +110,7 @@ void creaVectorDouble(double v[], const int n, const double minD, const double m
     //Post: ∀α ∈ [0, n − 1].(V0[α] ≥ 0 → v[α] = V0[α])
     // ∧(V0[α] < 0 → v[α] = −V0[α])
     void absol(double v[], int n){
-        if (n == 0) {
-            return;
-        } else {
+        if (n > 0) {
             if (v[n - 1] < 0) {
                 v[n - 1] = - v[n -1];
             }
@@ -157,24 +155,28 @@ void creaVectorDouble(double v[], const int n, const double minD, const double m
     void writeRev(const double v[], int n){
         if (n == 1) {
             cout << v[n - 1] << endl;
-            return;
+        } else { 
+            cout << v[n - 1] << ", ";
+            writeRev(v, n - 1);
         }
-        cout << v[n - 1] << ", ";
-        writeRev(v, n - 1);
-        return;
+    }
+    // Función auxiliar que permite que la principal imprima "[]"
+    void write1(const double v[], int n) {
+        if (n == 1) {
+            cout << v[n - 1] << ", ";
+        } else {
+            write1(v, n - 1);
+            cout << v[n - 1] << ", ";
+        }
     }
 
 // Problema 5
     //Pre: 1 ≤ n ≤ #v
     //Post: Muestra por stdout las componentes v[0],v[1],..,v[n-1]
     void write(const double v[], int n){
-        if (n == 1) {
-            cout << v[n - 1] << ", ";
-            return;
-        }
-        write(v, n - 1);
-        cout << v[n - 1] << ", ";
-        return;
+        cout << "[ ";
+        write1(v, n);
+        cout << "\b\b" << " ]" << endl;
     }
 
 int main() {
