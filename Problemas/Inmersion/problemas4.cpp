@@ -23,7 +23,7 @@ void muestraV(double v[], const int n) {
 // Problema 1. Debilitamiento Postcondición
 // Pre: 1 ≤ n ≤ #v ∧ ∃α ∈ [0, n − 1].v[α] > 0 ∧ 0 ≤ a ≤ n-1
 // Post: posPriPos(v, n) = P ∧ 0 ≤ P ≤ n − 1
-// ∧ v[P ] > 0 ∧ ∀α ∈ [0, P − 1].v[α] ≤ 0 ∧ ∀α ∈ [0, a − 1].v[α] ≤ 0
+// ∧ v[P] > 0 ∧ ∀α ∈ [0, P − 1].v[α] ≤ 0 ∧ ∀α ∈ [0, a − 1].v[α] ≤ 0
 int posPriPos(const double v[], const int n, const int a) {
     if (a == n - 1) {
         return a; // a = n-1 -> v[a] > 0 ∧ ∀α ∈ [0, n − 2].v[α] ≤ 0
@@ -48,7 +48,7 @@ int posPriPos(const double v[], const int n) {
 // Problema 2. Invertir
 // Refuerzo precondición
 
-// Pre: 0 ≤ n ≤ #v ∧ 0 ≤ inv ≤ n/2 ∧ ∀α ∈ [0, n − 1].
+// Pre: 0 ≤ n ≤ #v ∧ 0 ≤ inv ≤ n/2 ∧ ∀α ∈ [0, inv − 1].
 //      (x[α]=v[n-1-α] ∧ v[α]=x[n-1-α])
 // Post: ∀α ∈ [0, n − 1].x[α] = v[n − 1 − α]
 void invertir(const double v[], int n, double x[], int inv) {
@@ -62,6 +62,49 @@ void invertir(const double v[], int n, double x[], int inv) {
 // Post: ∀α ∈ [0, n − 1].x[α] = v[n − 1 − α]
 void invertir(const double v[], int n, double x[]) {
     invertir(v, n, x, 0);
+}
+// En invertir con debilitamiento obtengo el mismo diseño:
+// Pre: 0 ≤ n ≤ #v ∧ 0 ≤ p ≤ n/2
+// Post: ∀α ∈ [p, n−1-p].(x[α]=v[n-1-α] ∧ v[α]=x[n-1-α])
+// ¿ Para posPriPos e invertir hay una forma de ir de derecha a izqda?
+
+// Problema 3. acumular
+// Refuerzo precondición
+// Pre: 1 ≤ n ≤ #v ∧ 1 ≤ a ≤ n ∧ ∀α ∈[0,a−1].z[α] = SUM[β=0,α](v[β]) 
+//      ∧ z[0]=v[0]
+// Post: ∀α ∈ [0, n − 1].z[α] = SUM[β=0,α](v[β])
+void acumular(const int v[], int n, int z[], int a) {
+    if (a < n){
+        z[a] = z[a-1] + v[a];
+        acumular(v, n, z, a + 1);
+    }
+}
+
+// Pre: 1 ≤ n ≤ #v
+// Post: ∀α ∈ [0, n − 1].z[α] = SUM[β=0,α](v[β])
+void acumular(const int v[], int n, int z[]) {
+    z[0]=v[0]; // Para garantizar la pre de la inmersión
+    if (n > 1) {
+        acumular(v, n, z, 1);
+    }
+}
+
+// Problema 3. acumular
+// Debilitamiento postcondición
+// Pre: 1 ≤ n ≤ #v ∧ 0 ≤ f < n 
+// Post: ∀α ∈ [0, f].z[α] = SUM[β=0,α](v[β])
+void acumular2(const int v[], int n, int z[], int f) {
+    if (f == 0) {
+        z[0]=v[0];
+    } else {
+        acumular2(v, n, z, f - 1);
+        z[f] = z[f-1] + v[f];
+    }
+}
+// Pre: 1 ≤ n ≤ #v
+// Post: ∀α ∈ [0, n − 1].z[α] = SUM[β=0,α](v[β])
+void acumular2(const int v[], int n, int z[]) {
+        acumular2(v, n, z, n - 1);
 }
 
 int main() {
