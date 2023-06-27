@@ -1,6 +1,7 @@
 // Problema AR1.4 serie problemas resueltos recursiva
 
 #include <iostream>
+#include <cmath>
 // #include <iomanip>
 // #include <ctime>
 // #include <cstdlib>
@@ -54,6 +55,29 @@ int eliminar (const int n, const int d) {
     }
 }
 
+// AR1.7
+
+// Pre: n >= 0
+// Post: Devuelve un entero cuyos dígitos son la siguiente permutación
+//     de los dígitos de <n>:
+//     - Los dígitos signiﬁcativos de <n>, a partir de las decenas,
+//         se ubican en el valor devuelto una posición a la derecha.
+//     -El dígito de las unidades de <n> sustituye, en el valor devuelto,
+//         al dígito más signiﬁcativo de <n>.
+
+int numDigitos(const int n) {
+    if (n <= 9) {
+        return 1;
+    }
+    return 1 + numDigitos(n / 10);
+}
+
+int rotarDerecha(const int n) {
+    if (n <= 9) {
+        return n;
+    }
+    return pow(10,numDigitos(n) - 1) * (n % 10) + n / 10;
+}
 int main() {
     int cociente,resto;
     cout << "Valor de a: ";
@@ -79,4 +103,6 @@ int main() {
     cout << "Dígito a eliminar de " << a << endl;
     cin >> elimina;
     cout << "Eliminando " << elimina << " queda: " << eliminar(a,elimina) << endl;
+
+    cout << endl << "Rotar Derecha a: " << rotarDerecha(a) << endl;
 }
