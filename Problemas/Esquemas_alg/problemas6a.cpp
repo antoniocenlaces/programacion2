@@ -42,6 +42,25 @@ int pot10(const int n) {
     }
 }
 
+// Problema 1 con base real y exponente entero
+
+// Pre: 0 ≤ n
+// Post potencia(const double b, const int exp) = b^n
+double potencia(const double b, const int exp) {
+    if (exp == 0) {
+        return 1;
+    } else if (exp == 1) {
+        return b;
+    } else {
+        double p = potencia(b, exp / 2);
+        if (exp % 2 == 0) {
+            return p * p;
+        } else {
+            return b * p * p;
+        }
+    }
+}
+
 int main() {
     cout << "Introduce un número: ";
     int n;
@@ -53,4 +72,7 @@ int main() {
     cin >> n;
     int potd = pot10(n);
     cout << "Pot10(" << n << ")=" <<  potd << endl;
+
+    cout << "Con algoritmo en base b:" << endl;
+    cout << "2.15^3=" << potencia(2.15,3) << endl;
 }

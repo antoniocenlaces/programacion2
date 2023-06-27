@@ -75,7 +75,7 @@ void creaVectorDouble(double v[], const int n, const double minD, const double m
             } else {
                 return esPos(v, n - 1);
             }
-        } else {
+        } else { // Caso que el vector esté vacío devuelve true
             return true;
         }
     }
@@ -83,7 +83,7 @@ void creaVectorDouble(double v[], const int n, const double minD, const double m
     //Pre: 0 ≤ n ≤ #v
     //Post: esPos(v, n) = ∀α ∈ [0, n − 1].v[α] > 0
     bool esPos1(const double v[], int n) {
-        if (n == 0) {
+        if (n == 0) { // v está vacío por convención decimos que es positivo
             return true;
             } else if (v[n - 1] <= 0) {
                 return false;

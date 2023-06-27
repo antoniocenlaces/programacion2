@@ -6,6 +6,7 @@
 // #include <ctime>
 // #include <cstdlib>
 
+using namespace std;
 
 // Problema 1. Debilitamiento postcondición.
 //Pre: 1 ≤ n ≤ #vo ∧ n ≤ #vd
