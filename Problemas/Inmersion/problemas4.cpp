@@ -45,6 +45,54 @@ int posPriPos(const double v[], const int n) {
     }
 }
 
+// Intento 2 Problema 1. Debilitamiento Postcondición
+// Pre: 1 ≤ n ≤ #v ∧ ∃α ∈ [0, n − 1].v[α] > 0 ∧ 0 ≤ a ≤ n-1
+// Post: (posPriPos(v, n, a) = P ∧ 0 ≤ P ≤ n − 1
+// ∧ v[P] > 0 ∧ ∀α ∈ [0, P − 1].v[α] ≤ 0) ∨ (posPriPos(v, n, a) = -1 ∧ ∀α ∈ [0, a].v[α] ≤ 0)
+int posPriPos2(const double v[], const int n, const int a, int & iteracion) {
+    iteracion++;
+    cout << "Inicia llamada recursiva a posPriPos2 nº: " << iteracion << endl;
+    if (a == 0) {
+        if (v[a]>0){
+            cout << "a=0 y v[0]>0 retorna 0" << endl;
+            return a;
+        } else {
+            cout << "a=0 y v[0]≤0 retorna -1" << endl;
+            return -1;
+        }
+    }
+    if (v[a] > 0) { // a > 0 ∧ v[a] > 0
+                    // Voy a ver los que están a su izqda.
+        int pos = posPriPos2(v, n, a - 1, iteracion);
+        cout << "Estoy en la pos a= " << a << " y v[a]>0 y a su izqda posPriPos2 responde: " << pos << endl;
+        if (pos == -1) { // Todo lo que está a la izda de a es negativo → a es el resultado
+        cout << "Como todos los elementos a la izda de a son neg devuelvo a" << endl;
+            return a;
+        } else { // Hay al menos un positivo a la izda de a
+            if( pos == 0) { // Primer elemento de v es positivo
+                return pos;
+            } else { // pos > 0 ∧ v[pos] > 0
+            cout << "Como pos > 0 ∧ v[pos] > 0 continuo la recursividad desde pos -1" << endl;
+                return posPriPos2(v, n, pos - 1, iteracion);
+            }
+        }
+    } else { // a > 0 ∧ v[a] ≤ 0
+        cout << "a > 0 ∧ v[a] ≤ 0 continua recursividad en (a-1)" << endl;
+        return posPriPos2(v, n, a - 1, iteracion);
+    }
+}
+// Pre: 1 ≤ n ≤ #v ∧ ∃α ∈ [0, n − 1].v[α] > 0
+// Post: posPriPos(v, n) = P ∧ 0 ≤ P ≤ n − 1
+// ∧ v[P ] > 0 ∧ ∀α ∈ [0, P − 1].v[α] ≤ 0
+int posPriPos2(const double v[], const int n) {
+    if (n == 1) {
+        return n-1;
+    } else {
+        int iteracion = 0;
+        return posPriPos2(v, n, n-1, iteracion);
+    }
+}
+
 // Problema 2. Invertir
 // Refuerzo precondición
 
@@ -138,4 +186,17 @@ int main() {
      muestraV(v, n);
      invertir(v, n, x);
      muestraV(x, n);
+
+     n = 12;
+    //  double v2[n] = {-1, 0, -7, 2, -1, -3, -9, 0, -1, 1, 0, -5};
+    //  cout << "PosPriPos2 de:"<< endl;
+    //  muestraV(v2, n);
+    //  pos = posPriPos2(v2, n);
+    //   cout << "La posición del primer positivo es: " << pos << endl;
+
+      cout << "prueba de un bucle con preasignación" << endl;
+      for (int i = 0; i != n - 1; ++i) {
+        cout << "Valor contador: " << i << endl;
+      }
+
 }

@@ -15,6 +15,9 @@ int selecciona(const double v[N]);
 // Post: selecciona(v)=I ∧ 0 ≤ I ≤ N-1 ∧ I = ((¬(∀α ε[0, I-1].v[α]≤v[I] ∧ ∀α ε[I+1, N-1].v[α]≥v[I]) → -1) ∧ 
 //       ((∀α ε[0, I-1].v[α]≤v[I] ∧ ∀α ε[I+1, N-1].v[α]≥v[I]) → I))
 
+// (selecciona(v) = I ∧ 0≤I≤N−1 ∧ hayDistribucion(v, I))
+// ∨ (selecciona(v) = −1 ∧ ∀α ∈ [0, N−1].¬hayDistribucion(v, α))
+
 // Torres Hanoi en teoria_lecc5.cpp
 
 // Problemas 4. Recursivas con inmersión

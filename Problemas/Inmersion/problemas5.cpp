@@ -52,6 +52,7 @@ int nVeces(const Mat M, int d){
 
 // En este caso f puede llegar a N^2 ya que la pre me da la suma hasta f-1
 // Pre: 0 ≤ f ≤ N^2 ∧ sV = Num (α) ∈ [0, f^2 − 1].M[cociente(f,N)][f-(N*cociente(f,N))] = d
+// Post: nVeces(M, d) = Num (α, β) ∈ [0, N − 1]^2.M[α][β] = d
 int nVeces2(const Mat M, int d, int f, int sV) {
     if (f == N * N) {
         return sV;
